@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Task 22</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="luka">Luka</string>
+    <string name="date">16 december</string>
+    <string name="anita_max_wynnn">ANITA MAX WYNNN</string>
+    <string name="test_text">test text</string>
+    <string name="comments">%d Comments</string>
+    <string name="likes">%d Likes</string>
+    <string name="share">%d Share</string>
+    <string name="write_comment">Write comment...</string>
+    <string name="full_name_format">%1$s %2$s</string>
+    <string name="home">Home</string>
+    <string name="favourites">Favourites</string>
+    <string name="bell">Bell</string>
+    <string name="favourites_fragment">Favourites Fragment</string>
+    <string name="notifications_fragment">Notifications Fragment</string>
+    <string name="comments_fragment">Comments Fragment</string>
+</resources>
