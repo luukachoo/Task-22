@@ -5,27 +5,38 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.task22.databinding.FragmentHomeBinding
-import com.example.task22.presentation.event.HomeFragmentEvents
+import com.example.task22.presentation.event.home.HomeFragmentEvents
+import com.example.task22.presentation.event.home.HomeFragmentNavigationEvents
 import com.example.task22.presentation.extension.showSnackbar
+import com.example.task22.presentation.helper.Listener
 import com.example.task22.presentation.helper.Observer
 import com.example.task22.presentation.screen.base.BaseFragment
 import com.example.task22.presentation.screen.home.post.PostRecyclerAdapter
 import com.example.task22.presentation.screen.home.story.StoryRecyclerAdapter
-import com.example.task22.presentation.state.HomeState
+import com.example.task22.presentation.state.home.HomeState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate), Observer {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate), Observer,
+    Listener {
 
     private val viewModel: HomeFragmentViewModel by viewModels()
     private val storiesAdapter by lazy { StoryRecyclerAdapter() }
     private val postsAdapter by lazy { PostRecyclerAdapter() }
 
     override fun init() {
+        listeners()
         setUpRecyclers()
         observers()
+    }
+
+    override fun listeners() {
+        postsAdapter.onClick { x ->
+            viewModel.onEvent(HomeFragmentEvents.ItemClick(x.id))
+        }
     }
 
     override fun observers() {
@@ -33,6 +44,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.homeState.collect {
                     handleHomeState(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.homeUiEvent.collect {
+                    handleNavigationEvent(it)
                 }
             }
         }
@@ -61,6 +80,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         state.errorMessage?.let {
             binding.root.showSnackbar(message = it)
             viewModel.onEvent(HomeFragmentEvents.ResetErrorMessage)
+        }
+    }
+
+    private fun handleNavigationEvent(event: HomeFragmentNavigationEvents) {
+        when (event) {
+            is HomeFragmentNavigationEvents.NavigateToDetails -> findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(event.id)
+            )
         }
     }
 }

@@ -8,9 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.task22.R
 import com.example.task22.databinding.ActivityMainBinding
-import com.google.android.material.shape.CornerFamily
-import com.google.android.material.shape.CornerSize
-import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

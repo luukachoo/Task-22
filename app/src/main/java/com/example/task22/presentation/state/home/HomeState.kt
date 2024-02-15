@@ -1,4 +1,4 @@
-package com.example.task22.presentation.state
+package com.example.task22.presentation.state.home
 
 import com.example.task22.presentation.model.Post
 import com.example.task22.presentation.model.Story

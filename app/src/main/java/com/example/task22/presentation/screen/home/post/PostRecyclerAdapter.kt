@@ -13,6 +13,8 @@ import com.example.task22.presentation.model.Post
 class PostRecyclerAdapter :
     ListAdapter<Post, PostRecyclerAdapter.PostViewHolder>(PostDiffCallback()) {
 
+    private var onClick: ((Post) -> Unit)? = null
+
     inner class PostViewHolder(private val binding: ItemPostRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) = with(binding) {
@@ -40,6 +42,8 @@ class PostRecyclerAdapter :
                     ivImageThird.loadImagesWithGlide(images[2])
                 }
             }
+
+            root.setOnClickListener { onClick?.invoke(post) }
         }
     }
 
@@ -55,4 +59,7 @@ class PostRecyclerAdapter :
         holder.bind(getItem(position))
     }
 
+    fun onClick(click: (Post) -> Unit) {
+        this.onClick = click
+    }
 }

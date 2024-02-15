@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.task22.data.remote.utils.Resource
 import com.example.task22.domain.remote.use_case.HomeUseCase
-import com.example.task22.presentation.event.HomeFragmentEvents
+import com.example.task22.presentation.event.home.HomeFragmentEvents
+import com.example.task22.presentation.event.home.HomeFragmentNavigationEvents
 import com.example.task22.presentation.mapper.toPresentation
-import com.example.task22.presentation.state.HomeState
+import com.example.task22.presentation.state.home.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,11 +24,20 @@ class HomeFragmentViewModel @Inject constructor(
     private val _homeState = MutableStateFlow(HomeState())
     val homeState get() = _homeState
 
+    private val _homeUiEvent = MutableSharedFlow<HomeFragmentNavigationEvents>()
+    val homeUiEvent: SharedFlow<HomeFragmentNavigationEvents> get() = _homeUiEvent
+
+
     fun onEvent(event: HomeFragmentEvents) {
-        when (event) {
-            HomeFragmentEvents.FetchPosts -> fetchPosts()
-            HomeFragmentEvents.FetchStories -> fetchStories()
-            HomeFragmentEvents.ResetErrorMessage -> updateErrorMessage(null)
+        viewModelScope.launch {
+            when (event) {
+                is HomeFragmentEvents.FetchPosts -> fetchPosts()
+                is HomeFragmentEvents.FetchStories -> fetchStories()
+                is HomeFragmentEvents.ResetErrorMessage -> updateErrorMessage(null)
+                is HomeFragmentEvents.ItemClick -> updateNavigationEvent(
+                    HomeFragmentNavigationEvents.NavigateToDetails(event.id)
+                )
+            }
         }
     }
 
@@ -70,6 +82,10 @@ class HomeFragmentViewModel @Inject constructor(
             }
         }
     }
+
+    private suspend fun updateNavigationEvent(events: HomeFragmentNavigationEvents) =
+        _homeUiEvent.emit(events)
+
 
     private fun updateErrorMessage(message: String?) =
         _homeState.update { it.copy(errorMessage = message) }
