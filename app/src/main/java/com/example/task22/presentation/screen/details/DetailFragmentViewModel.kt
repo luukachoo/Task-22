@@ -30,6 +30,7 @@ class DetailFragmentViewModel @Inject constructor(val getPostByIdUseCase: GetPos
     private fun fetchPost(id: Int) {
         viewModelScope.launch {
             getPostByIdUseCase(id).collect { res ->
+                _detailState.update { it.copy(isLoading = true) }
                 when (res) {
                     is Resource.Success -> _detailState.update {
                         it.copy(

@@ -26,10 +26,11 @@ class MessagingService : FirebaseMessagingService() {
         }
     }
 
-
     private fun sendNotification(title: String, body: String, id: Int) {
-        val args = Bundle()
-        args.putInt("id", id)
+        val args = Bundle().also {
+            it.putInt("id", id)
+        }
+
         val pendingIntent = NavDeepLinkBuilder(this)
             .setGraph(R.navigation.nav_graph)
             .setDestination(R.id.detailsFragment)
@@ -48,7 +49,6 @@ class MessagingService : FirebaseMessagingService() {
 
         notificationManager.notify(0, notification.build())
     }
-
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
