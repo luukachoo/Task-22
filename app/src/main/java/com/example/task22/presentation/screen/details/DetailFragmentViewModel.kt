@@ -27,7 +27,6 @@ class DetailFragmentViewModel @Inject constructor(val getPostByIdUseCase: GetPos
         }
     }
 
-
     private fun fetchPost(id: Int) {
         viewModelScope.launch {
             getPostByIdUseCase(id).collect { res ->

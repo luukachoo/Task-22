@@ -24,7 +24,7 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
 
     override fun init() {
         val id = args.id
-        viewModel.onEvent(DetailFragmentEvent.FetchPost(id))
+        viewModel.onEvent(DetailFragmentEvent.FetchPost(args.id))
         observers()
     }
 
@@ -37,7 +37,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
             }
         }
     }
-
 
     private fun handleDetailFragmentState(state: DetailState) {
         state.post?.let {

@@ -17,4 +17,6 @@
     <string name="favourites_fragment">Favourites Fragment</string>
     <string name="notifications_fragment">Notifications Fragment</string>
     <string name="comments_fragment">Comments Fragment</string>
+    <string name="channel_title">App Notifications</string>
+    <string name="channel_id">CHANNEL_ID</string>
 </resources>

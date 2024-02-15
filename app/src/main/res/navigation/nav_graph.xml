@@ -37,5 +37,9 @@
         <argument
             android:name="id"
             app:argType="integer" />
+
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="task22://detailfragment/{id}" />
     </fragment>
 </navigation>
