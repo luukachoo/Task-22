@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.task22.R
 import com.example.task22.databinding.ItemPostRecyclerBinding
+import com.example.task22.presentation.collage_layout_manager.PhotoCollageLayoutManager
 import com.example.task22.presentation.extension.convertEpochDateToRegularDate
 import com.example.task22.presentation.extension.loadImagesWithGlide
 import com.example.task22.presentation.model.Post
+import com.example.task22.presentation.screen.home.post.photo.PhotoCollageAdapter
 
 class PostRecyclerAdapter :
     ListAdapter<Post, PostRecyclerAdapter.PostViewHolder>(PostDiffCallback()) {
@@ -17,6 +19,11 @@ class PostRecyclerAdapter :
 
     inner class PostViewHolder(private val binding: ItemPostRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.imageContainer.layoutManager = PhotoCollageLayoutManager()
+        }
+
         fun bind(post: Post) = with(binding) {
             val fullName = itemView.context.getString(
                 R.string.full_name_format,
@@ -31,21 +38,12 @@ class PostRecyclerAdapter :
             tvComments.text = itemView.context.getString(R.string.comments, post.comments)
             tvDescription.text = post.title
 
-            post.images?.let { images ->
-                if (images.isNotEmpty()) {
-                    ivImageFirst.loadImagesWithGlide(images[0])
-                }
-                if (images.size > 1) {
-                    ivImageSecond.loadImagesWithGlide(images[1])
-                }
-                if (images.size > 2) {
-                    ivImageThird.loadImagesWithGlide(images[2])
-                }
-            }
+            imageContainer.adapter = post.images?.let { PhotoCollageAdapter(it) }
 
             root.setOnClickListener { onClick?.invoke(post) }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PostViewHolder(
         ItemPostRecyclerBinding.inflate(
@@ -56,7 +54,8 @@ class PostRecyclerAdapter :
     )
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val post = getItem(position)
+        holder.bind(post)
     }
 
     fun onClick(click: (Post) -> Unit) {

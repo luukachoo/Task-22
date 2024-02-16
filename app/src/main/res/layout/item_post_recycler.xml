@@ -55,46 +55,13 @@
             app:layout_constraintStart_toStartOf="@+id/ivAvatar"
             app:layout_constraintTop_toBottomOf="@+id/ivAvatar" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivImageFirst"
-            android:layout_width="0dp"
-            android:layout_height="197dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="8dp"
-            android:scaleType="fitXY"
-            app:circularflow_radiusInDP="30dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-            app:shapeAppearanceOverlay="@style/roundedImage" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivImageSecond"
-            android:layout_width="0dp"
-            android:layout_height="91dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="20dp"
-            android:scaleType="fitXY"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/ivImageFirst"
-            app:shapeAppearanceOverlay="@style/roundedImage" />
-
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivImageThird"
-            android:layout_width="0dp"
-            android:layout_height="91dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/ivImageFirst"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/ivImageSecond"
-            app:shapeAppearanceOverlay="@style/roundedImage" />
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
         <View
             android:id="@+id/viewLine"
@@ -103,7 +70,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:background="@color/grey"
-            app:layout_constraintTop_toBottomOf="@+id/ivImageFirst" />
+            app:layout_constraintTop_toBottomOf="@+id/imageContainer" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivComment"
@@ -215,12 +182,12 @@
             app:layout_constraintStart_toEndOf="@+id/ivUserAvatar"
             app:layout_constraintTop_toTopOf="@+id/ivUserAvatar" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+        <!--        <androidx.constraintlayout.widget.Guideline-->
+        <!--            android:id="@+id/guideline"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical"-->
+        <!--            app:layout_constraintGuide_percent="0.5" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
