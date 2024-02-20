@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -58,9 +59,9 @@ class DetailFragmentViewModelTest {
         val detailState = mutableListOf<DetailState>()
         val job = launch { viewModel.detailState.toList(detailState) }
         whenever(getPostByIdUseCase(post.id)).thenReturn(flowOf(Resource.Success(post)))
-
         viewModel.onEvent(DetailFragmentEvent.FetchPost(post.id))
-        delay(500)
+
+        advanceUntilIdle()
         job.cancel()
 
         assertTrue("ragaca", detailState.any { state ->

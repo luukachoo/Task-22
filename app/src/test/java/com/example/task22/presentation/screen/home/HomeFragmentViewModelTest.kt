@@ -15,9 +15,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -44,7 +46,6 @@ class HomeFragmentViewModelTest {
         Dispatchers.setMain(StandardTestDispatcher())
         MockitoAnnotations.openMocks(this)
         viewModel = HomeFragmentViewModel(getPostsUseCase, getStoriesUseCase)
-
     }
 
     @Test
@@ -99,8 +100,10 @@ class HomeFragmentViewModelTest {
         whenever(getPostsUseCase()).thenReturn(flowOf(Resource.Success(posts)))
 
         viewModel.onEvent(HomeFragmentEvents.FetchPosts)
-        delay(500)
+
+        advanceUntilIdle()
         job.cancel()
+
         assertTrue(
             "Check if list of posts matches the list of HomeState's posts",
             homeState.any { state ->
@@ -123,7 +126,7 @@ class HomeFragmentViewModelTest {
 
         viewModel.onEvent(HomeFragmentEvents.FetchStories)
 
-        delay(500)
+        advanceUntilIdle()
         job.cancel()
 
         assertTrue(
@@ -143,7 +146,7 @@ class HomeFragmentViewModelTest {
 
         viewModel.onEvent(HomeFragmentEvents.FetchStories)
 
-        delay(500)
+        advanceUntilIdle()
         job.cancel()
 
         assertTrue("error message", homeState.any { it.errorMessage == error })
