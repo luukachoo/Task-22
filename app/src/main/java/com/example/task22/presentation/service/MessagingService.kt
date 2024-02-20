@@ -33,7 +33,7 @@ class MessagingService : FirebaseMessagingService() {
 
         val pendingIntent = NavDeepLinkBuilder(this)
             .setGraph(R.navigation.nav_graph)
-            .setDestination(R.id.detailsFragment)
+            .addDestination(R.id.detailsFragment)
             .setArguments(args)
             .createPendingIntent()
 

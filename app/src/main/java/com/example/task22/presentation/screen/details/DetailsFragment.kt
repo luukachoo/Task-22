@@ -10,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.task22.R
 import com.example.task22.databinding.FragmentDetailsBinding
 import com.example.task22.presentation.event.detail.DetailFragmentEvent
-import com.example.task22.presentation.event.home.HomeFragmentEvents
 import com.example.task22.presentation.extension.convertEpochDateToRegularDate
 import com.example.task22.presentation.extension.loadImagesWithGlide
 import com.example.task22.presentation.extension.showSnackbar

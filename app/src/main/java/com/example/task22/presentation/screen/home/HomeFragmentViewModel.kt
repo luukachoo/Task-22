@@ -3,7 +3,8 @@ package com.example.task22.presentation.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.task22.data.remote.utils.Resource
-import com.example.task22.domain.remote.use_case.HomeUseCase
+import com.example.task22.domain.remote.use_case.GetPostsUseCase
+import com.example.task22.domain.remote.use_case.GetStoriesUseCase
 import com.example.task22.presentation.event.home.HomeFragmentEvents
 import com.example.task22.presentation.event.home.HomeFragmentNavigationEvents
 import com.example.task22.presentation.mapper.toPresentation
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeFragmentViewModel @Inject constructor(
-    private val homeUseCase: HomeUseCase
+    private val getPostsUseCase: GetPostsUseCase,
+    private val getStoriesUseCase: GetStoriesUseCase
 ) : ViewModel() {
 
     private val _homeState = MutableStateFlow(HomeState())
@@ -43,7 +45,7 @@ class HomeFragmentViewModel @Inject constructor(
 
     private fun fetchPosts() {
         viewModelScope.launch {
-            homeUseCase.getPostsUseCase().collect { res ->
+            getPostsUseCase().collect { res ->
                 when (res) {
                     is Resource.Success -> {
                         _homeState.update { it.copy(isLoading = true) }
@@ -64,7 +66,7 @@ class HomeFragmentViewModel @Inject constructor(
 
     private fun fetchStories() {
         viewModelScope.launch {
-            homeUseCase.getStoriesUseCase().collect { res ->
+            getStoriesUseCase().collect { res ->
                 when (res) {
                     is Resource.Success -> {
                         _homeState.update { it.copy(isLoading = true) }
